@@ -1,8 +1,8 @@
-// const express = require("express");
-// const cors = require("cors");
-import cors from "cors";
-import express from "express";
-import postsRoute from "./routes/postsRoute.js";
+const express = require("express");
+const cors = require("cors");
+// import cors from "cors";
+// import express from "express";
+// import postsRoute from "./routes/postsRoute.js";
 
 const app = express();
 const apiPort = 5000;
@@ -19,7 +19,7 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// const postsRoutes = require("./routes/posts");
+const postsRoute = require("./routes/postsRoute");
 app.use("/posts", postsRoute);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));

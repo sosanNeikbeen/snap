@@ -1,5 +1,5 @@
-// const { MongoClient } = require("mongodb");
-import { MongoClient } from "mongodb";
+const { MongoClient } = require("mongodb");
+// import { MongoClient } from "mongodb";
 
 const db = async () => {
   const uri =
@@ -20,5 +20,5 @@ const db = async () => {
   return database;
 };
 
-// module.exports = db;
-export default db;
+module.exports = db;
+// export default db;
