@@ -63,13 +63,17 @@
 
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
+import { storage } from "../../firebase";
+import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { useGoogleAuth } from "../../context/AuthContext";
-import { createStream } from "../../apis/streams";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const PostForm = (props) => {
   const [userId, setUserId] = useState();
-  const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
+  const [currentImage, setCurrentImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState();
   const postRef = useRef();
   const imageRef = useRef();
   const history = useHistory();
@@ -89,54 +93,67 @@ const PostForm = (props) => {
   //   console.log(userId);
   // }
   const uploadSingleFile = (e) => {
-    setFile(URL.createObjectURL(e.target.files[0]));
+    setImage(e.target.files[0]);
+    setCurrentImage(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = async (evt) => {
     evt.preventDefault();
+    if (image == null) return;
+    const storageRef = ref(storage, `images/${image.name}`);
+
+    await uploadBytes(storageRef, image);
+    const url = await getDownloadURL(storageRef);
+
     const data = {
       post: postRef.current.value,
-      image: file,
+      image: url,
       // userId: userId,
     };
     props.onSubmit(data);
+    history.push("/");
   };
-  let imgPreview;
-  if (file) {
-    imgPreview = <img src={file} alt="" />;
-  }
+
   return (
     <div>
-      <form onSubmit={handleSubmit} className="ui form">
+      <form
+        onSubmit={handleSubmit}
+        encType="multipart/form-data"
+        className="ui form"
+      >
+        <div className="field">
+          {currentImage ? (
+            <figure>
+              <img src={currentImage} alt="" />
+            </figure>
+          ) : (
+            <div className="columns is-centered is-mobile">
+              <div className="column is-three-fifths is-offset-one-fifth">
+                <button className="button is-dark">
+                  <input
+                    class="file-input"
+                    type="file"
+                    name="image"
+                    ref={imageRef}
+                    onChange={uploadSingleFile}
+                  />
+                  <span class="icon">
+                    <FontAwesomeIcon icon={faCamera} />
+                  </span>
+                  <span>Add Photo</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="field">
           <textarea
             class="textarea is-info"
-            placeholder="Whats on your mind"
+            placeholder="Write caption"
             ref={postRef}
             name="post"
           ></textarea>
         </div>
-        <div class="file has-name is-fullwidth">
-          <label class="file-label">
-            <input
-              class="file-input"
-              type="file"
-              name="image"
-              ref={imageRef}
-              onChange={uploadSingleFile}
-            />
-            <span class="file-cta">
-              <span class="file-icon">
-                <i class="fas fa-upload"></i>
-              </span>
-              <span class="file-label">Choose a file…</span>
-            </span>
-            <span class="file-name">
-              Screen Shot 2017-07-29 at 15.54.25.png
-            </span>
-          </label>
-        </div>
-        <article>{imgPreview}</article>
 
         <button className="ui button" type="submit">
           Submit

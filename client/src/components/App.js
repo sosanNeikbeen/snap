@@ -11,6 +11,7 @@ import history from "../history";
 import { GoogleAuthProvider } from "../context/AuthContext";
 import { StreamProvider } from "../context/StreamContext";
 import { PostProvider } from "../context/PostContext";
+import PostDetail from "./posts/PostDetail";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
                     exact
                     component={StreamDelete}
                   />
+                  <Route path="/posts/:id" exact component={PostDetail} />
                   <Route path="/streams/:id" exact component={StreamShow} />
                 </Switch>
               </PostProvider>

@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./styles/bulma.css";
+import "./styles/brand.scss";
 import App from "./components/App";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";

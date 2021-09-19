@@ -24,7 +24,7 @@ export const PostProvider = ({ children }) => {
   const fetchPost = async (id) => {
     const res = await fetch(`/posts/${id}`);
     const result = await res.json();
-    return result.stream;
+    return result.post;
   };
 
   const editPost = async (id, data) => {

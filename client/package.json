@@ -11,7 +11,9 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
     "bulma": "^0.9.3",
+    "firebase": "^9.0.2",
     "lodash": "^4.17.21",
+    "node-sass": "^5.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.3",
@@ -27,7 +29,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "css-build": "node-sass --omit-source-map-url ./src/styles/bulma/bulma.scss ./src/styles/bulma/bulma.css"
   },
   "eslintConfig": {
     "extends": [

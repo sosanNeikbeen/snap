@@ -11,8 +11,7 @@ const StreamCreate = () => {
   };
 
   return (
-    <div>
-      <h3>Post something</h3>
+    <div className="box">
       <PostForm onSubmit={onSubmit} />
     </div>
   );
