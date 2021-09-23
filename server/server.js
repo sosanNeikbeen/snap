@@ -20,6 +20,8 @@ app.get("/", (req, res) => {
 });
 
 const postsRoute = require("./routes/postsRoute");
+const commentsRoute = require("./routes/commentsRoute");
+app.use("/comments", commentsRoute);
 app.use("/posts", postsRoute);
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
