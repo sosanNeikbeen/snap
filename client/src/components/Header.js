@@ -1,26 +1,42 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
 
 const Header = () => {
   const [isActive, setisActive] = useState(false);
+  const history = useHistory();
+  const location = useLocation();
+
+  const goBack = (e) => {
+    e.preventDefault();
+    history.goBack();
+  };
+
   return (
     <div className="box has-background-dark p-2">
       <div className="level is-mobile  ">
         <div className="level-left">
           <div className="level-item">
-            <p className=" ">
+            {location.pathname === "/" ? (
               <Link
                 className="is-size-4 has-text-white-bis has-text-weight-semibold"
                 to="/"
               >
                 insta media
               </Link>
-            </p>
+            ) : (
+              <button className="button is-white " onClick={goBack}>
+                <span className="icon">
+                  <FontAwesomeIcon icon={faArrowLeft} />
+                </span>
+                <span>Go back </span>
+              </button>
+            )}
           </div>
         </div>
         <div className="level-right">

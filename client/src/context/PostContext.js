@@ -10,15 +10,13 @@ export const usePost = () => {
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
 
-  const createPost = (data) => {
-    axios
-      .post("/posts", data)
-      .then(function () {
-        console.log("added");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+  const createPost = async (data) => {
+    try {
+      await axios.post("/posts", data);
+      console.log("post added");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const fetchPost = async (id) => {
@@ -28,14 +26,20 @@ export const PostProvider = ({ children }) => {
   };
 
   const editPost = async (id, data) => {
-    await axios
-      .put(`/posts/edit/${id}`, data)
-      .then(function () {
-        console.log("updated");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    try {
+      await axios.put(`/posts/edit/${id}`, data);
+      console.log("post updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deletePost = async (id) => {
+    try {
+      await axios.delete(`/posts/delete/${id}`);
+      console.log("post deleted");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -47,13 +51,12 @@ export const PostProvider = ({ children }) => {
     fetchPosts();
   }, []);
 
-  console.log(posts);
-
   const value = {
     posts,
     createPost,
     fetchPost,
     editPost,
+    deletePost,
   };
 
   return <PostContext.Provider value={value}>{children}</PostContext.Provider>;

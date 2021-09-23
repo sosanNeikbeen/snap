@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import PostComment from "./PostComment";
+import Dropdown from "../Dropdown";
+import PostComment from "../comments/CommentList";
 import { usePost } from "../../context/PostContext";
 
 const PostDetail = () => {
   const [isPost, setIsPost] = useState();
-  const [isActive, setisActive] = useState(false);
   const { fetchPost } = usePost();
   const url = window.location.pathname;
   const id = url.substring(url.lastIndexOf("/") + 1);
@@ -25,7 +23,7 @@ const PostDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const { post, image } = isPost;
+  const { post, image, _id } = isPost;
 
   return (
     <section className="section p-4 pt-2">
@@ -46,35 +44,21 @@ const PostDetail = () => {
           </div>
         </div>
         <div className="media-right">
-          <div class={`dropdown is-right ${isActive ? "is-active" : ""}`}>
-            <div class="dropdown-trigger">
-              <span
-                class="icon is-small"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu3"
-                onClick={() => {
-                  setisActive(!isActive);
-                }}
-              >
-                <i class="fas fa-angle-down" aria-hidden="true">
-                  <FontAwesomeIcon icon={faEllipsisH} />
-                </i>
-              </span>
-            </div>
+          <Dropdown>
             <div class="dropdown-menu " id="dropdown-menu3" role="menu">
               <div class="dropdown-content">
                 <a href="#" class="dropdown-item">
                   View Profile
                 </a>
-                <a href="#" class="dropdown-item">
+                <Link class="dropdown-item" to={`/posts/edit/${_id}`}>
                   Edit Post
-                </a>
-                <a href="#" class="dropdown-item">
+                </Link>
+                <Link class="dropdown-item" to={`/posts/delete/${_id}`}>
                   Delete Post
-                </a>
+                </Link>
               </div>
             </div>
-          </div>
+          </Dropdown>
         </div>
       </article>
 
@@ -89,7 +73,7 @@ const PostDetail = () => {
         </p>
       </div>
 
-      <PostComment />
+      <PostComment postId={_id} />
     </section>
   );
 };

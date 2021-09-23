@@ -1,13 +1,14 @@
 import React from "react";
 import PostForm from "./PostForm";
-import { connect } from "react-redux";
-// import { createStream } from "../../actions";
+import { useHistory } from "react-router-dom";
 import { usePost } from "../../context/PostContext";
 
 const StreamCreate = () => {
+  const history = useHistory();
   const { createPost } = usePost();
-  const onSubmit = (formValues) => {
-    createPost(formValues);
+  const onSubmit = async (formValues) => {
+    await createPost(formValues);
+    history.push("/");
   };
 
   return (

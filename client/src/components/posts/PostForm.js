@@ -62,7 +62,6 @@
 // })(StreamForm);
 
 import React, { useRef, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { storage } from "../../firebase";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { useGoogleAuth } from "../../context/AuthContext";
@@ -73,10 +72,9 @@ const PostForm = (props) => {
   const [userId, setUserId] = useState();
   const [image, setImage] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
-  const [imageUrl, setImageUrl] = useState();
   const postRef = useRef();
   const imageRef = useRef();
-  const history = useHistory();
+
   const { isSignedIn, auth2 } = useGoogleAuth();
   // const auth = useGoogleAuth().auth2.currentUser.get();
 
@@ -111,7 +109,6 @@ const PostForm = (props) => {
       // userId: userId,
     };
     props.onSubmit(data);
-    history.push("/");
   };
 
   return (
@@ -119,7 +116,7 @@ const PostForm = (props) => {
       <form
         onSubmit={handleSubmit}
         encType="multipart/form-data"
-        className="ui form"
+        className="form"
       >
         <div className="field">
           {currentImage ? (
@@ -133,6 +130,7 @@ const PostForm = (props) => {
                   <input
                     class="file-input"
                     type="file"
+                    accept=".png, .jpg, .jpeg"
                     name="image"
                     ref={imageRef}
                     onChange={uploadSingleFile}
