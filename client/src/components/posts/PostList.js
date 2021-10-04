@@ -75,47 +75,20 @@
 
 // export default connect(mapStateToProps, { fetchStreams })(StreamList);
 
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "../Dropdown";
-import PostComment from "../comments/CommentList";
 import ReactTimeAgo from "react-time-ago";
 import { usePost } from "../../context/PostContext";
 
 const PostList = () => {
-  const { posts } = usePost();
+  const { fetchPosts, posts } = usePost();
 
-  console.log(posts);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   return (
-    // <div className="ui middle aligned animated list">
-    //   {streams &&
-    //     streams.map((stream) => (
-    //       <div className="item" key={stream._id}>
-    //         <div className="content">
-    //           <div className="header">
-    //             <Link to={`/streams/${stream._id}`} className="header">
-    //               {stream.title} {stream.description}
-    //             </Link>
-    //           </div>
-    //           <div className="right floated content">
-    //             <Link
-    //               to={`/streams/edit/${stream._id}`}
-    //               className="ui button primary"
-    //             >
-    //               Edit
-    //             </Link>
-    //             <Link
-    //               to={`/streams/delete/${stream._id}`}
-    //               className="ui button negative"
-    //             >
-    //               Delete
-    //             </Link>
-    //           </div>
-    //         </div>
-    //       </div>
-    //     ))}
-    // </div>
     <>
       <section className="section p-4 pt-0">
         {posts &&
@@ -127,6 +100,7 @@ const PostList = () => {
                     <img
                       className="brand-rounded"
                       src="https://bulma.io/images/placeholders/32x32.png"
+                      alt=""
                     />
                   </figure>
                 </figure>
@@ -134,7 +108,7 @@ const PostList = () => {
                   <div className="content">
                     <p>
                       <strong>John Smith</strong>{" "}
-                      <ReactTimeAgo date={post.created_at} timeStyle="round" />
+                      <ReactTimeAgo date={post.createdAt} timeStyle="round" />
                       <br />
                     </p>
                   </div>
@@ -142,19 +116,23 @@ const PostList = () => {
 
                 <div className="media-right">
                   <Dropdown>
-                    <div class="dropdown-menu " id="dropdown-menu3" role="menu">
-                      <div class="dropdown-content">
-                        <Link class="dropdown-item" to={"/profile"}>
+                    <div
+                      className="dropdown-menu "
+                      id="dropdown-menu3"
+                      role="menu"
+                    >
+                      <div className="dropdown-content">
+                        <Link className="dropdown-item" to={"/profile"}>
                           View Profile
                         </Link>
                         <Link
-                          class="dropdown-item"
+                          className="dropdown-item"
                           to={`posts/edit/${post._id}`}
                         >
                           Edit Post
                         </Link>
                         <Link
-                          class="dropdown-item"
+                          className="dropdown-item"
                           to={`posts/delete/${post._id}`}
                         >
                           Delete Post
@@ -166,7 +144,7 @@ const PostList = () => {
               </article>
               <div className="container">
                 <figure className="image ">
-                  <img src={post.image} />
+                  <img src={post.image} alt="user post" />
                 </figure>
 
                 <p className="pt-3">
@@ -174,7 +152,7 @@ const PostList = () => {
                   <strong>John Smith</strong> {post.post}
                 </p>
                 <Link to={`/posts/${post._id}`}>
-                  <p className="has-text-grey pt-2"> View all 3 comments</p>
+                  <p className="has-text-grey pt-2"> View comments</p>
                 </Link>
               </div>
             </div>

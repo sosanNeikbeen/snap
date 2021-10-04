@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
-import _ from "lodash";
 import { usePost } from "../../context/PostContext";
 
 const PostEdit = () => {
@@ -31,9 +30,7 @@ const PostEdit = () => {
     try {
       editPost(id, data);
       history.push("/");
-    } catch (error) {
-      debugger;
-    }
+    } catch (error) {}
   };
 
   return (
@@ -42,7 +39,7 @@ const PostEdit = () => {
       <form onSubmit={onSubmit} className="form">
         <div className="field">
           <textarea
-            class="textarea is-info"
+            className="textarea is-info"
             ref={postRef}
             placeholder="Write caption"
             onChange={onInputChange}

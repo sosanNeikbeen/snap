@@ -32,6 +32,7 @@ const PostDetail = () => {
           <img
             className="brand-rounded"
             src="https://bulma.io/images/placeholders/32x32.png"
+            alt=""
           />
         </figure>
         <div className="media-content is-mobile">
@@ -45,15 +46,15 @@ const PostDetail = () => {
         </div>
         <div className="media-right">
           <Dropdown>
-            <div class="dropdown-menu " id="dropdown-menu3" role="menu">
-              <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
+            <div className="dropdown-menu " id="dropdown-menu3" role="menu">
+              <div className="dropdown-content">
+                <Link className="dropdown-item" to="/profile">
                   View Profile
-                </a>
-                <Link class="dropdown-item" to={`/posts/edit/${_id}`}>
+                </Link>
+                <Link className="dropdown-item" to={`/posts/edit/${_id}`}>
                   Edit Post
                 </Link>
-                <Link class="dropdown-item" to={`/posts/delete/${_id}`}>
+                <Link className="dropdown-item" to={`/posts/delete/${_id}`}>
                   Delete Post
                 </Link>
               </div>
@@ -64,7 +65,7 @@ const PostDetail = () => {
 
       <div className="container">
         <figure className="image ">
-          <img src={image} />
+          <img src={image} alt="" />
         </figure>
 
         <p className="pt-3">

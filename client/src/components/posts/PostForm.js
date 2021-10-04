@@ -128,14 +128,14 @@ const PostForm = (props) => {
               <div className="column is-three-fifths is-offset-one-fifth">
                 <button className="button is-dark">
                   <input
-                    class="file-input"
+                    className="file-input"
                     type="file"
                     accept=".png, .jpg, .jpeg"
                     name="image"
                     ref={imageRef}
                     onChange={uploadSingleFile}
                   />
-                  <span class="icon">
+                  <span className="icon">
                     <FontAwesomeIcon icon={faCamera} />
                   </span>
                   <span>Add Photo</span>
@@ -146,7 +146,7 @@ const PostForm = (props) => {
         </div>
         <div className="field">
           <textarea
-            class="textarea is-info"
+            className="textarea is-info"
             placeholder="Write caption"
             ref={postRef}
             name="post"

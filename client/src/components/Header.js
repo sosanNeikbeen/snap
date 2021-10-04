@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import GoogleAuth from "./GoogleAuth";
@@ -42,23 +41,23 @@ const Header = () => {
         <div className="level-right">
           <div className="level-item">
             <Link to="/posts/new">
-              <span class="icon is-large is-size-4 has-text-white">
-                <i class="fas fa-angle-down" aria-hidden="true">
+              <span className="icon is-large is-size-4 has-text-white">
+                <i className="fas fa-angle-down" aria-hidden="true">
                   <FontAwesomeIcon icon={faPlus} />
                 </i>
               </span>
             </Link>
           </div>
           <div className="level-item">
-            <span class="icon is-large is-size-3 has-text-white">
-              <i class="fas fa-angle-down" aria-hidden="true">
+            <span className="icon is-large is-size-3 has-text-white">
+              <i className="fas fa-angle-down" aria-hidden="true">
                 <FontAwesomeIcon icon={faComments} />
               </i>
             </span>
           </div>
           <div className="level-item">
-            <div class={`dropdown is-right ${isActive ? "is-active" : ""}`}>
-              <div class="dropdown-trigger">
+            <div className={`dropdown is-right ${isActive ? "is-active" : ""}`}>
+              <div className="dropdown-trigger">
                 <figure
                   aria-haspopup="true"
                   aria-controls="dropdown-menu3"
@@ -70,17 +69,18 @@ const Header = () => {
                   <img
                     className="image brand-rounded"
                     src="https://bulma.io/images/placeholders/32x32.png"
+                    alt=""
                   />
                 </figure>
               </div>
-              <div class="dropdown-menu " id="dropdown-menu3" role="menu">
-                <div class="dropdown-content">
-                  <a href="#" class="dropdown-item">
+              <div className="dropdown-menu " id="dropdown-menu3" role="menu">
+                <div className="dropdown-content">
+                  <Link className="dropdown-item" to="/profile">
                     Profile
-                  </a>
-                  <a href="#" class="dropdown-item">
+                  </Link>
+                  <Link className="dropdown-item" to="/login">
                     Login
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

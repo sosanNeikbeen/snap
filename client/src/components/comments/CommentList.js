@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
+import React, { useEffect } from "react";
 import { useComment } from "../../context/CommentContext";
 import { useHistory, Link } from "react-router-dom";
 import Dropdown from "../Dropdown";
 import CommentForm from "./CommentForm";
 
 const PostComment = ({ postId }) => {
-  const { createComment, comments } = useComment();
+  const { createComment, comments, fetchComments } = useComment();
 
   const history = useHistory();
 
@@ -14,56 +14,62 @@ const PostComment = ({ postId }) => {
     history.push("/");
   };
 
-  const renderComments = comments.map((cmnt) => {
-    if (cmnt.postId === postId) {
-      return (
-        <article key={cmnt._id} class="media">
-          <figure class="media-left">
-            <p class="image is-64x64">
-              <img src="https://bulma.io/images/placeholders/48x48.png" />
-            </p>
-          </figure>
-          <div class="media-content">
-            <div class="content">
-              <p>
-                <strong>Barbara Middleton</strong>
-                <br />
-                {cmnt.comment}
-                <br />
+  const renderComments =
+    comments.length !== 0 &&
+    comments.map((cmnt) => {
+      if (cmnt.postId === postId) {
+        return (
+          <article key={cmnt._id} className="media">
+            <figure className="media-left">
+              <p className="image is-64x64">
+                <img
+                  src="https://bulma.io/images/placeholders/48x48.png"
+                  alt=""
+                />
               </p>
-            </div>
-          </div>
-          <div className="media-right">
-            <Dropdown>
-              <div class="dropdown-menu " id="dropdown-menu3" role="menu">
-                <div class="dropdown-content">
-                  <Link class="dropdown-item" to="/">
-                    Edit Comment
-                  </Link>
-                  <Link
-                    class="dropdown-item"
-                    to={`/comments/delete/${cmnt._id}`}
-                  >
-                    Delete Comment
-                  </Link>
-                </div>
+            </figure>
+            <div className="media-content">
+              <div className="content">
+                <p>
+                  <strong>Barbara Middleton</strong>
+                  <br />
+                  {cmnt.comment}
+                  <br />
+                </p>
               </div>
-            </Dropdown>
-          </div>
-        </article>
-      );
-    }
-  });
+            </div>
+            <div className="media-right">
+              <Dropdown>
+                <div className="dropdown-menu " id="dropdown-menu3" role="menu">
+                  <div className="dropdown-content">
+                    <Link className="dropdown-item" to="/">
+                      Edit Comment
+                    </Link>
+                    <Link
+                      className="dropdown-item"
+                      to={`/comments/delete/${cmnt._id}`}
+                    >
+                      Delete Comment
+                    </Link>
+                  </div>
+                </div>
+              </Dropdown>
+            </div>
+          </article>
+        );
+      }
+    });
 
-  console.log(comments);
-  console.log(postId);
+  useEffect(() => {
+    fetchComments();
+  }, []);
 
   return (
     <div>
-      <div class="tabs pt-5">
+      <div className="tabs pt-5">
         <ul>
-          <li class="is-active">
-            <a>Comments</a>
+          <li className="is-active">
+            <a href="">Comments</a>
           </li>
         </ul>
       </div>

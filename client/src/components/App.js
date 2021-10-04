@@ -1,21 +1,23 @@
 import React from "react";
 import { Router, Route, Switch } from "react-router-dom";
 import Header from "./Header";
-import PostCreate from "./posts/PostCreate";
-import PostList from "./posts/PostList";
 import history from "../history";
 import { GoogleAuthProvider } from "../context/AuthContext";
 import { PostProvider } from "../context/PostContext";
 import { CommentProvider } from "../context/CommentContext";
+import PostCreate from "./posts/PostCreate";
+import PostList from "./posts/PostList";
 import PostDetail from "./posts/PostDetail";
 import PostDelete from "./posts/PostDelete";
 import PostEdit from "./posts/PostEdit";
 import Profile from "./Profile";
 import CommentDelete from "./comments/CommentDelete";
+import Signup from "./authentication/Register";
+import Login from "./authentication/Login";
 
 const App = () => {
   return (
-    <div className="ui container">
+    <div className="container">
       <Router history={history}>
         <div>
           <GoogleAuthProvider>
@@ -38,6 +40,8 @@ const App = () => {
                     component={CommentDelete}
                   />
                   <Route path="/profile" exact component={Profile} />
+                  <Route path="/login" exact component={Login} />
+                  <Route path="/signup" exact component={Signup} />
                 </Switch>
               </PostProvider>
             </CommentProvider>

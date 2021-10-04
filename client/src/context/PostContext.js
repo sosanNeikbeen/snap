@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
+import React, { useContext, createContext, useState } from "react";
 import axios from "axios";
 
 export const PostContext = createContext();
@@ -22,7 +22,7 @@ export const PostProvider = ({ children }) => {
   const fetchPost = async (id) => {
     const res = await fetch(`/posts/${id}`);
     const result = await res.json();
-    return result.post;
+    return result;
   };
 
   const editPost = async (id, data) => {
@@ -42,17 +42,18 @@ export const PostProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await fetch("/posts");
-      const result = await res.json();
-      setPosts(result.posts);
-    };
-    fetchPosts();
-  }, []);
+  const fetchPosts = async () => {
+    try {
+      const res = await axios.get("/posts");
+      setPosts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const value = {
     posts,
+    fetchPosts,
     createPost,
     fetchPost,
     editPost,

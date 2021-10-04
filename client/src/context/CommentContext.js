@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState, useEffect } from "react";
+import React, { useContext, createContext, useState } from "react";
 import axios from "axios";
 
 export const CommentContext = createContext();
@@ -22,7 +22,7 @@ export const CommentProvider = ({ children }) => {
   const fetchComment = async (id) => {
     const res = await fetch(`/comments/${id}`);
     const result = await res.json();
-    return result.post;
+    return result;
   };
 
   const editComment = async (id, data) => {
@@ -42,17 +42,27 @@ export const CommentProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    const fetchComments = async () => {
-      const res = await fetch("/comments");
-      const result = await res.json();
-      setComments(result.comments);
-    };
-    fetchComments();
-  }, []);
+  // useEffect(() => {
+  //   const fetchComments = async () => {
+  //     const res = await fetch("/comments");
+  //     const result = await res.json();
+  //     setComments(result.comments);
+  //   };
+  //   fetchComments();
+  // }, []);
+
+  const fetchComments = async () => {
+    try {
+      const res = await axios.get("/comments");
+      setComments(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const value = {
     comments,
+    fetchComments,
     createComment,
     fetchComment,
     editComment,

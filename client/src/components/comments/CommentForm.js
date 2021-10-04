@@ -11,26 +11,26 @@ const CommentForm = ({ postId, handleSubmit }) => {
     handleSubmit(data);
   };
   return (
-    <article class="media">
-      <figure class="media-left">
-        <p class="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/48x48.png" />
+    <article className="media">
+      <figure className="media-left">
+        <p className="image is-64x64">
+          <img src="https://bulma.io/images/placeholders/48x48.png" alt="" />
         </p>
       </figure>
-      <div class="media-content">
+      <div className="media-content">
         <form onSubmit={onSubmit}>
-          <div class="field">
-            <p class="control">
+          <div className="field">
+            <p className="control">
               <textarea
-                class="textarea"
+                className="textarea"
                 ref={commentRef}
                 placeholder="Add a comment..."
               ></textarea>
             </p>
           </div>
-          <div class="field">
-            <p class="control">
-              <button type="submit" class="button has-background-info">
+          <div className="field">
+            <p className="control">
+              <button type="submit" className="button has-background-info">
                 Post comment
               </button>
             </p>

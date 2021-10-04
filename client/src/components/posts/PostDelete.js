@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { usePost } from "../../context/PostContext";
 import Modal from "../Modal";
 
@@ -9,7 +9,6 @@ const PostDelete = () => {
   const url = window.location.pathname;
   const id = url.substring(url.lastIndexOf("/") + 1);
   const onDeletePost = (e) => {
-    e.preventDefault();
     deletePost(id);
     history.push("/");
   };
