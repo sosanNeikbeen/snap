@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
+import { useToasts } from "react-toast-notifications";
 import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
@@ -8,8 +10,16 @@ import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Register = () => {
+  const { createUser } = useAuth();
   const [countries, setCountries] = useState([]);
   const [selectedValue, setSelectedValue] = useState("Afghanistan");
+  const history = useHistory();
+  const { addToast } = useToasts();
+  const nameRef = useRef();
+  const lastnameRef = useRef();
+  const locationRef = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
 
   const handleSelectChange = (e) => {
     e.preventDefault();
@@ -33,6 +43,25 @@ const Register = () => {
     });
   }
 
+  const handleSubmit = () => {
+    const data = {
+      name: nameRef.current.value,
+      lastname: lastnameRef.current.value,
+      location: locationRef.current.value,
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+    try {
+      createUser(data);
+      history.push("/login");
+      addToast("User added, please login to see more.", {
+        appearance: "success",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="hero is-medium ">
       <div className="hero-body">
@@ -44,7 +73,7 @@ const Register = () => {
                 ) : (
                   ""
                 )} */}
-              <form className="box">
+              <form onSubmit={handleSubmit} className="box">
                 <div className="field">
                   <label className="label">Name</label>
                   <div className="control has-icons-left ">
@@ -52,7 +81,7 @@ const Register = () => {
                       className="input"
                       type="text"
                       placeholder="Name"
-                      //   ref={emailRef}
+                      ref={nameRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faUser} />
@@ -66,7 +95,7 @@ const Register = () => {
                       className="input"
                       type="text"
                       placeholder="lastname"
-                      //   ref={emailRef}
+                      ref={lastnameRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faUser} />
@@ -76,10 +105,17 @@ const Register = () => {
                 <div className="field">
                   <label className="label">Location</label>
                   <div className="control has-icons-left ">
-                    <div className="select is-fullwidth">
+                    <div
+                      className={
+                        countries.length === 0
+                          ? "select is-fullwidth is-loading"
+                          : "select is-fullwidth"
+                      }
+                    >
                       <select
                         value={selectedValue}
                         onChange={handleSelectChange}
+                        ref={locationRef}
                       >
                         {dropdownValue}
                       </select>
@@ -96,7 +132,7 @@ const Register = () => {
                       className="input"
                       type="email"
                       placeholder="Email"
-                      //   ref={emailRef}
+                      ref={emailRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faEnvelope} />
@@ -110,7 +146,7 @@ const Register = () => {
                       className="input"
                       type="password"
                       placeholder="********"
-                      //   ref={passwordRef}
+                      ref={passwordRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faLock} />

@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
+  const { loginUser } = useAuth();
+  const history = useHistory();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+
+  const handleSubmit = () => {
+    const data = {
+      email: emailRef.current.value,
+      password: passwordRef.current.value,
+    };
+
+    loginUser(data);
+    history.push("/");
+  };
+
   return (
     <section className="hero is-medium ">
       <div className="columns pt-6 is-mobile is-centered">
@@ -25,7 +41,7 @@ const Login = () => {
               ""
             )} */}
 
-              <form className="box">
+              <form onSubmit={handleSubmit} className="box">
                 <div className="field">
                   <label className="label">Email</label>
                   <div className="control has-icons-left">
@@ -33,7 +49,7 @@ const Login = () => {
                       className="input"
                       type="email"
                       placeholder="e.g. alex@example.com"
-                      //   ref={emailRef}
+                      ref={emailRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faEnvelope} />
@@ -48,7 +64,7 @@ const Login = () => {
                       className="input"
                       type="password"
                       placeholder="********"
-                      //   ref={passwordRef}
+                      ref={passwordRef}
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faLock} />

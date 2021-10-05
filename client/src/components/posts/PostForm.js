@@ -64,23 +64,23 @@
 import React, { useRef, useState } from "react";
 import { storage } from "../../firebase";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
-import { useGoogleAuth } from "../../context/AuthContext";
+// import { useGoogleAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const PostForm = (props) => {
-  const [userId, setUserId] = useState();
+  // const [userId, setUserId] = useState();
   const [image, setImage] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
   const postRef = useRef();
   const imageRef = useRef();
 
-  const { isSignedIn, auth2 } = useGoogleAuth();
+  // const { isSignedIn, auth2 } = useGoogleAuth();
   // const auth = useGoogleAuth().auth2.currentUser.get();
 
-  if (isSignedIn) {
-    const userId = auth2.currentUser.get().getId();
-  }
+  // if (isSignedIn) {
+  //   const userId = auth2.currentUser.get().getId();
+  // }
   // if (auth2.currentUser.get()) {
   //   const userId = auth2.currentUser.get().getId();
   //   console.log(userId);

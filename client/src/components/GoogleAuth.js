@@ -69,31 +69,31 @@
 
 // export default connect(mapStateToProps, { signIn, signOut })(GoogleAuth);
 
-import React from "react";
-import { useGoogleAuth } from "../context/AuthContext";
+// import React from "react";
+// import { useGoogleAuth } from "../context/AuthContext";
 
-const GoogleAuth = () => {
-  const { signIn, signOut, isSignedIn } = useGoogleAuth();
-  // console.log(useGoogleAuth().auth2.currentUser.get().getId());
+// const GoogleAuth = () => {
+//   const { signIn, signOut, isSignedIn } = useGoogleAuth();
+//   // console.log(useGoogleAuth().auth2.currentUser.get().getId());
 
-  const renderAuthButton = () => {
-    if (isSignedIn) {
-      return (
-        <button className="ui red google button" onClick={signOut}>
-          <i className="google icon" />
-          Sign Out
-        </button>
-      );
-    } else {
-      return (
-        <button className="ui red google button" onClick={signIn}>
-          <i className="google icon" />
-          Sign In with Google
-        </button>
-      );
-    }
-  };
-  return <div>{renderAuthButton()}</div>;
-};
+//   const renderAuthButton = () => {
+//     if (isSignedIn) {
+//       return (
+//         <button className="ui red google button" onClick={signOut}>
+//           <i className="google icon" />
+//           Sign Out
+//         </button>
+//       );
+//     } else {
+//       return (
+//         <button className="ui red google button" onClick={signIn}>
+//           <i className="google icon" />
+//           Sign In with Google
+//         </button>
+//       );
+//     }
+//   };
+//   return <div>{renderAuthButton()}</div>;
+// };
 
-export default GoogleAuth;
+// export default GoogleAuth;
