@@ -2,10 +2,11 @@ const postModel = require("../models/post_model");
 
 module.exports = {
   createPost: (req, res, next) => {
-    const { post, image } = req.body;
+    const { post, image, userId } = req.body;
     postCreate = new postModel({
       post,
       image,
+      userId,
     });
     postCreate.save((err, files) => {
       if (err) {

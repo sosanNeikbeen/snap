@@ -2,10 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-// import cors from "cors";
-// import express from "express";
-// import postsRoute from "./routes/postsRoute.js";
+const passport = require("passport");
+const jwtStrategy = require("./passport.js");
 
 const app = express();
 const apiPort = 5000;
@@ -33,3 +31,6 @@ mongoose
   .catch((err) => console.log(err.message));
 
 app.listen(apiPort, () => console.log(`Server running on port ${apiPort}`));
+
+passport.use("jwt", jwtStrategy);
+app.use(passport.initialize());
