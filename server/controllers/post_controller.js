@@ -16,23 +16,30 @@ module.exports = {
     });
   },
 
-  getPosts: (req, res, next) => {
-    postModel
-      .find()
-      .then((files) => {
-        res.send(files);
-      })
-      .catch((err) => console.log(err));
+  getPosts: async (req, res, next) => {
+    try {
+      const posts = await postModel.find().populate("userId").exec();
+      res.send(posts);
+      // console.log(posts[0].userId.name);
+    } catch (error) {
+      console.log(error);
+      res.status(400).send({
+        message: "Something went wrong",
+      });
+    }
   },
 
   getPost: (req, res, next) => {
-    postModel.findOne({ _id: req.params.id }, function (err, data) {
-      if (err) {
-        console.log(err);
-      } else {
-        res.send(data);
-      }
-    });
+    postModel
+      .findOne({ _id: req.params.id }, function (err, data) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(data);
+        }
+      })
+      .populate("userId")
+      .exec();
   },
   deletePost: (req, res, next) => {
     postModel.findByIdAndDelete(req.params.id, function (err, data) {
@@ -52,7 +59,7 @@ module.exports = {
           console.log(err);
         } else {
           res.send(data);
-          console.log("Data updated!");
+          console.log("Post updated!");
         }
       }
     );

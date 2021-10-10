@@ -14,7 +14,6 @@ const jwtOptions = {
 const jwtVerify = async (payload, next) => {
   try {
     const user = await userModel.findById(payload.id);
-    console.log(user);
     if (!user) {
       return next(null, false);
     }

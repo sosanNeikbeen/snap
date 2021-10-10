@@ -67,15 +67,39 @@ module.exports = {
           email: user.email,
           name: user.name,
           location: user.location,
+          picture: user.picture,
         },
         process.env.JWT_SECRET
       );
 
-      //   res.cookie("token", token, { httpOnly: true });
       return res.json({ status: "ok", token, user: user });
     }
     res
       .status(400)
       .send({ status: "error", message: "Invalid username/password" });
+  },
+
+  getUser: (req, res, next) => {
+    userModel.findOne({ _id: req.params.id }, function (err, data) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(data);
+      }
+    });
+  },
+  updateProfile: (req, res, next) => {
+    userModel.findByIdAndUpdate(
+      req.params.id,
+      { picture: req.body.picture },
+      function (err, data) {
+        if (err) {
+          console.log(err);
+        } else {
+          res.send(data);
+          console.log("Profile updated!");
+        }
+      }
+    );
   },
 };
