@@ -12,7 +12,7 @@ const PostDelete = () => {
     deletePost(id);
     history.push("/");
   };
-  const onClickCancel = () => {
+  const onCancel = () => {
     history.goBack();
   };
 
@@ -22,7 +22,7 @@ const PostDelete = () => {
         <button onClick={onDeletePost} className="button is-danger">
           Delete
         </button>
-        <button onClick={onClickCancel} className="button">
+        <button onClick={onCancel} className="button">
           Cancel
         </button>
       </div>

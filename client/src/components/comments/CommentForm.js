@@ -1,12 +1,16 @@
 import React, { useRef } from "react";
 
-const CommentForm = ({ postId, handleSubmit }) => {
+const CommentForm = ({ postId, handleSubmit, user }) => {
   const commentRef = useRef();
 
-  const onSubmit = () => {
+  console.log(user);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
     const data = {
       comment: commentRef.current.value,
       postId: postId,
+      userId: user.userId,
     };
     handleSubmit(data);
   };

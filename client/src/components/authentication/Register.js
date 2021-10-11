@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useToasts } from "react-toast-notifications";
 import { Link, useHistory } from "react-router-dom";
@@ -12,19 +12,15 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const Register = () => {
   const { createUser } = useAuth();
   const [countries, setCountries] = useState([]);
-  const [selectedValue, setSelectedValue] = useState("Afghanistan");
+  const [state, setState] = useState({
+    name: "",
+    location: "",
+    email: "",
+    password: "",
+  });
+
   const history = useHistory();
   const { addToast } = useToasts();
-  const nameRef = useRef();
-  const lastnameRef = useRef();
-  const locationRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-
-  const handleSelectChange = (e) => {
-    e.preventDefault();
-    setSelectedValue(e.target.value);
-  };
 
   useEffect(() => {
     const getCountries = async () => {
@@ -43,65 +39,60 @@ const Register = () => {
     });
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const data = {
-      name: nameRef.current.value,
-      lastname: lastnameRef.current.value,
-      location: locationRef.current.value,
-      email: emailRef.current.value,
-      password: passwordRef.current.value,
+      name: state.name,
+      location: state.location,
+      email: state.email,
+      password: state.password,
     };
     try {
-      createUser(data);
+      await createUser(data);
       history.push("/login");
       addToast("User added, please login to see more.", {
         appearance: "success",
+        autoDismiss: true,
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      addToast(error.response.data.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
     }
   };
 
   return (
     <section className="hero is-medium ">
+      <div className="columns pt-6 is-mobile is-centered">
+        <p className="has-text-weight-semibold has-text-info is-size-1">
+          Snap
+          <br />
+        </p>
+      </div>
       <div className="hero-body">
         <div className="container ">
           <div className="columns ">
             <div className="column is-half is-offset-one-quarter">
-              {/* {error ? (
-                  <div className="notification is-danger is-light">{error}</div>
-                ) : (
-                  ""
-                )} */}
               <form onSubmit={handleSubmit} className="box">
                 <div className="field">
-                  <label className="label">Name</label>
+                  <label className="label">Full name</label>
                   <div className="control has-icons-left ">
                     <input
                       className="input"
                       type="text"
                       placeholder="Name"
-                      ref={nameRef}
+                      onChange={(e) =>
+                        setState({ ...state, name: e.target.value })
+                      }
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faUser} />
                     </span>
                   </div>
                 </div>
-                <div className="field">
-                  <label className="label">Lastname</label>
-                  <div className="control has-icons-left ">
-                    <input
-                      className="input"
-                      type="text"
-                      placeholder="lastname"
-                      ref={lastnameRef}
-                    />
-                    <span className="icon is-small is-left">
-                      <FontAwesomeIcon className="m-3" icon={faUser} />
-                    </span>
-                  </div>
-                </div>
+
                 <div className="field">
                   <label className="label">Location</label>
                   <div className="control has-icons-left ">
@@ -113,9 +104,10 @@ const Register = () => {
                       }
                     >
                       <select
-                        value={selectedValue}
-                        onChange={handleSelectChange}
-                        ref={locationRef}
+                        value={state.location}
+                        onChange={(e) =>
+                          setState({ ...state, location: e.target.value })
+                        }
                       >
                         {dropdownValue}
                       </select>
@@ -132,7 +124,9 @@ const Register = () => {
                       className="input"
                       type="email"
                       placeholder="Email"
-                      ref={emailRef}
+                      onChange={(e) =>
+                        setState({ ...state, email: e.target.value })
+                      }
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faEnvelope} />
@@ -146,7 +140,9 @@ const Register = () => {
                       className="input"
                       type="password"
                       placeholder="********"
-                      ref={passwordRef}
+                      onChange={(e) =>
+                        setState({ ...state, password: e.target.value })
+                      }
                     />
                     <span className="icon is-small is-left">
                       <FontAwesomeIcon className="m-3" icon={faLock} />

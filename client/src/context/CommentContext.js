@@ -1,6 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
-import axios from "axios";
-
+import xhr from "../utils/xhr";
 export const CommentContext = createContext();
 
 export const useComment = () => {
@@ -11,23 +10,18 @@ export const CommentProvider = ({ children }) => {
   const [comments, setComments] = useState([]);
 
   const createComment = async (data) => {
-    try {
-      await axios.post("/comments", data);
-      console.log("comment added");
-    } catch (error) {
-      console.log(error);
-    }
+    const res = await xhr.post("/comments", data);
+    return res;
   };
 
   const fetchComment = async (id) => {
-    const res = await fetch(`/comments/${id}`);
-    const result = await res.json();
-    return result;
+    const res = await xhr.get(`/comments/${id}`);
+    return res.data;
   };
 
   const editComment = async (id, data) => {
     try {
-      await axios.put(`/comments/edit/${id}`, data);
+      await xhr.put(`/comments/edit/${id}`, data);
       console.log("comment updated");
     } catch (error) {
       console.log(error);
@@ -35,25 +29,16 @@ export const CommentProvider = ({ children }) => {
   };
   const deleteComment = async (id) => {
     try {
-      await axios.delete(`/comments/delete/${id}`);
+      await xhr.delete(`/comments/delete/${id}`);
       console.log("comment deleted");
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   const fetchComments = async () => {
-  //     const res = await fetch("/comments");
-  //     const result = await res.json();
-  //     setComments(result.comments);
-  //   };
-  //   fetchComments();
-  // }, []);
-
   const fetchComments = async () => {
     try {
-      const res = await axios.get("/comments");
+      const res = await xhr.get("/comments");
       setComments(res.data);
     } catch (error) {
       console.log(error);

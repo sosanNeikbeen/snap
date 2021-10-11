@@ -64,12 +64,14 @@
 import React, { useRef, useState } from "react";
 import { storage } from "../../firebase";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
+import { useAuth } from "../../context/AuthContext";
 // import { useGoogleAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const PostForm = (props) => {
   // const [userId, setUserId] = useState();
+  const { currentUser } = useAuth();
   const [image, setImage] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
   const postRef = useRef();
@@ -95,8 +97,8 @@ const PostForm = (props) => {
     setCurrentImage(URL.createObjectURL(e.target.files[0]));
   };
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (image == null) return;
     const storageRef = ref(storage, `images/${image.name}`);
 
@@ -106,7 +108,7 @@ const PostForm = (props) => {
     const data = {
       post: postRef.current.value,
       image: url,
-      // userId: userId,
+      userId: currentUser.userId,
     };
     props.onSubmit(data);
   };

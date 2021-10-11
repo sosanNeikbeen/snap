@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
 import Dropdown from "../Dropdown";
 import PostComment from "../comments/CommentList";
 import { usePost } from "../../context/PostContext";
@@ -23,7 +24,8 @@ const PostDetail = () => {
     return <div>Loading...</div>;
   }
 
-  const { post, image, _id } = isPost;
+  const { post, image, _id, userId, createdAt } = isPost;
+  console.log(isPost);
 
   return (
     <section className="section p-4 pt-2">
@@ -38,8 +40,11 @@ const PostDetail = () => {
         <div className="media-content is-mobile">
           <div className="content">
             <p>
-              <strong>John Smith</strong> <small>@johnsmith</small>{" "}
-              <small>31m</small>
+              <strong>{userId.name}</strong>{" "}
+              <small>
+                {" "}
+                <ReactTimeAgo date={createdAt} timeStyle="round" />
+              </small>
               <br />
             </p>
           </div>
@@ -48,7 +53,10 @@ const PostDetail = () => {
           <Dropdown>
             <div className="dropdown-menu " id="dropdown-menu3" role="menu">
               <div className="dropdown-content">
-                <Link className="dropdown-item" to="/profile">
+                <Link
+                  className="dropdown-item"
+                  to={`/users/profile/${userId._id}`}
+                >
                   View Profile
                 </Link>
                 <Link className="dropdown-item" to={`/posts/edit/${_id}`}>
@@ -70,7 +78,7 @@ const PostDetail = () => {
 
         <p className="pt-3">
           {" "}
-          <strong>John Smith</strong> {post}
+          <strong>{userId.name}</strong> {post}
         </p>
       </div>
 

@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { usePost } from "../../context/PostContext";
+import { useComment } from "../../context/CommentContext";
 import Modal from "../Modal";
 
-const PostEdit = () => {
-  const [post, setPost] = useState();
-  const { editPost, fetchPost } = usePost();
+const CommentEdit = () => {
+  const [comment, setComment] = useState();
+  const { editComment, fetchComment } = useComment();
   const history = useHistory();
   const url = window.location.pathname;
   const id = url.substring(url.lastIndexOf("/") + 1);
 
   useEffect(() => {
-    const getPost = async () => {
-      const data = await fetchPost(id);
-      setPost(data.post);
+    const getComment = async () => {
+      const data = await fetchComment(id);
+      console.log(data);
+      setComment(data.comment);
     };
 
-    getPost();
+    getComment();
   }, []);
 
-  const onEditPost = () => {
+  const onEditComment = () => {
     const data = {
-      post: post,
+      comment: comment,
     };
     try {
-      editPost(id, data);
-      history.push("/");
+      editComment(id, data);
+      history.goBack();
     } catch (error) {
       console.log(error);
     }
@@ -38,7 +39,7 @@ const PostEdit = () => {
   const renderActions = () => {
     return (
       <div>
-        <button onClick={onEditPost} className="button is-info">
+        <button onClick={onEditComment} className="button is-info">
           Edit
         </button>
         <button onClick={onCancel} className="button">
@@ -54,9 +55,9 @@ const PostEdit = () => {
         <textarea
           className="textarea is-info"
           placeholder="Write caption"
-          onChange={(e) => setPost(e.target.value)}
-          value={post}
-          name="post"
+          onChange={(e) => setComment(e.target.value)}
+          value={comment}
+          name="Comment"
         ></textarea>
       </div>
     );
@@ -65,13 +66,13 @@ const PostEdit = () => {
   return (
     <div>
       <Modal
-        title="Edit Post"
+        title="Edit Comment"
         content={renderContent()}
         actions={renderActions()}
-        onDismiss={() => history.push("/")}
+        onDismiss={() => history.goBack()}
       />
     </div>
   );
 };
 
-export default PostEdit;
+export default CommentEdit;

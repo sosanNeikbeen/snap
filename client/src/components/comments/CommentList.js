@@ -1,17 +1,23 @@
 import React, { useEffect } from "react";
 import { useComment } from "../../context/CommentContext";
+import { useAuth } from "../../context/AuthContext";
 import { useHistory, Link } from "react-router-dom";
 import Dropdown from "../Dropdown";
 import CommentForm from "./CommentForm";
 
 const PostComment = ({ postId }) => {
   const { createComment, comments, fetchComments } = useComment();
+  const { currrentUser } = useAuth();
 
   const history = useHistory();
 
   const handleSubmit = async (data) => {
-    await createComment(data);
-    history.push("/");
+    try {
+      await createComment(data);
+      console.log("comment added");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const renderComments =
@@ -42,7 +48,10 @@ const PostComment = ({ postId }) => {
               <Dropdown>
                 <div className="dropdown-menu " id="dropdown-menu3" role="menu">
                   <div className="dropdown-content">
-                    <Link className="dropdown-item" to="/">
+                    <Link
+                      className="dropdown-item"
+                      to={`/comments/edit/${cmnt._id}`}
+                    >
                       Edit Comment
                     </Link>
                     <Link
@@ -64,6 +73,8 @@ const PostComment = ({ postId }) => {
     fetchComments();
   }, []);
 
+  console.log(currrentUser);
+
   return (
     <div>
       <div className="tabs pt-5">
@@ -75,7 +86,11 @@ const PostComment = ({ postId }) => {
       </div>
       {renderComments}
 
-      <CommentForm postId={postId} handleSubmit={handleSubmit} />
+      <CommentForm
+        user={currrentUser}
+        postId={postId}
+        handleSubmit={handleSubmit}
+      />
     </div>
   );
 };

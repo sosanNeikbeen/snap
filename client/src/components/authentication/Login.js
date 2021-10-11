@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useToasts } from "react-toast-notifications";
 import { Link, useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,29 +8,41 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const { loginUser } = useAuth();
+  const { addToast } = useToasts();
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const data = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
 
-    loginUser(data);
-    history.push("/");
+    try {
+      await loginUser(data);
+      history.push("/");
+      addToast("You are logged in successfully!!.", {
+        appearance: "success",
+        autoDismiss: true,
+      });
+    } catch (error) {
+      console.log(error.response.data.message);
+      addToast(error.response.data.message, {
+        appearance: "error",
+        autoDismiss: true,
+      });
+    }
   };
 
   return (
     <section className="hero is-medium ">
       <div className="columns pt-6 is-mobile is-centered">
-        <Link to="/">
-          <p className="has-text-weight-semibold has-text-info is-size-1">
-            Snap
-            <br />
-          </p>
-        </Link>
+        <p className="has-text-weight-semibold has-text-info is-size-1">
+          Snap
+          <br />
+        </p>
       </div>
       <div className="hero-body">
         <div className="container ">

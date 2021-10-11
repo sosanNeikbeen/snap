@@ -1,83 +1,104 @@
-// import React, { useContext, createContext, useState, useEffect } from "react";
-// import { useGoogleLogin } from "react-use-googlelogin";
-
-// const GoogleAuthContext = createContext();
-
-// export const GoogleAuthProvider = ({ children }) => {
-//   const [currentUser, setCurrentUser] = useState();
-
-//   const googleAuth = useGoogleLogin({
-//     clientId:
-//       "227955560876-biaiuf02utgri02oood3oa484tr3jjqm.apps.googleusercontent.com", // Your clientID from Google.
-//   });
-
-//   const { isSignedIn, auth2 } = googleAuth;
-
-//   useEffect(() => {
-//     // const getUserId = () => {
-//     //   if (isSignedIn) {
-//     //     setCurrentUser({
-//     //       ...currentUser,
-//     //       userId: auth2.currentUser.get().getId(),
-//     //     });
-//     //   }
-//     // };
-//     // getUserId();
-//     const getUser = async () => {
-//       const result = await googleAuth.auth2;
-//       console.log(result);
-//       setCurrentUser(result);
-//     };
-
-//     getUser();
-//   }, []);
-
-//   if (currentUser) {
-//     console.log(currentUser);
-//   }
-
-//   setTimeout(() => {
-//     console.log(auth2.currentUser.get().getId());
-//   }, 6000);
-
-//   return (
-//     <GoogleAuthContext.Provider value={googleAuth}>
-//       {children}
-//     </GoogleAuthContext.Provider>
-//   );
-// };
-
-// export const useGoogleAuth = () => useContext(GoogleAuthContext);
-
-import React, { useContext, createContext } from "react";
-import axios from "axios";
+import React, { useContext, createContext, useEffect, useState } from "react";
+import xhr from "../utils/xhr";
+import jwt from "jsonwebtoken";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const createUser = (data) => {
+  const [loading, setLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState({
+    userId: "",
+    email: "",
+    name: "",
+    location: "",
+    isLoggedIn: false,
+  });
+
+  const createUser = async (data) => {
+    return await xhr.post("/users/signup", data);
+  };
+
+  const loginUser = async (data) => {
+    const res = await xhr.post("/users/login", data);
+    localStorage.setItem("token", res.data.token);
+    const decoded = jwt.decode(res.data.token);
+    if (decoded) {
+      setCurrentUser({
+        ...currentUser,
+        userId: decoded.id,
+        email: decoded.email,
+        name: decoded.name,
+        location: decoded.location,
+        picture: decoded.picture,
+        isLoggedIn: true,
+      });
+    }
+
+    return res;
+  };
+
+  const fetchUser = async (id) => {
+    const res = await xhr.get(`/users/profile/${id}`);
+    return res.data;
+  };
+
+  const logoutUser = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+  };
+
+  const editUserProfile = async (id, data) => {
     try {
-      axios.post("/users/signup", data);
-      console.log("user added");
+      await xhr.put(`/users/edit/${id}`, data);
+      console.log("profile updated");
     } catch (error) {
       console.log(error);
     }
   };
-  const loginUser = (data) => {
-    try {
-      axios.post("/users/login", data);
-      console.log("user logged in");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  useEffect(() => {
+    console.log("im called");
+    const getUser = () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const decoded = jwt.decode(token);
+        if (decoded) {
+          setCurrentUser({
+            ...currentUser,
+            userId: decoded.id,
+            email: decoded.email,
+            name: decoded.name,
+            location: decoded.location,
+            picture: decoded.picture,
+            isLoggedIn: true,
+          });
+        }
+      }
+      setLoading(false);
+    };
+    getUser();
+  }, []);
+
+  // console.log(currentUser, "user");
 
   const value = {
+    currentUser,
     createUser,
     loginUser,
+    logoutUser,
+    fetchUser,
+    editUserProfile,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  if (loading) {
+    return <div>loading</div>;
+  }
+
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);
