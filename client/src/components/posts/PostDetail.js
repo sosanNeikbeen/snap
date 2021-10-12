@@ -4,10 +4,13 @@ import ReactTimeAgo from "react-time-ago";
 import Dropdown from "../Dropdown";
 import PostComment from "../comments/CommentList";
 import { usePost } from "../../context/PostContext";
+import { useAuth } from "../../context/AuthContext";
 
 const PostDetail = () => {
   const [isPost, setIsPost] = useState();
   const { fetchPost } = usePost();
+  const { currentUser } = useAuth();
+  const currentUserId = currentUser.userId;
   const url = window.location.pathname;
   const id = url.substring(url.lastIndexOf("/") + 1);
 
@@ -25,15 +28,19 @@ const PostDetail = () => {
   }
 
   const { post, image, _id, userId, createdAt } = isPost;
-  console.log(isPost);
+  console.log(isPost, "postdetails");
 
   return (
     <section className="section p-4 pt-2">
       <article className="media is-mobile ">
         <figure className="image media-left">
           <img
-            className="brand-rounded"
-            src="https://bulma.io/images/placeholders/32x32.png"
+            className="pic-rounded"
+            src={
+              userId.picture
+                ? userId.picture
+                : "https://bulma.io/images/placeholders/32x32.png"
+            }
             alt=""
           />
         </figure>
@@ -59,12 +66,18 @@ const PostDetail = () => {
                 >
                   View Profile
                 </Link>
-                <Link className="dropdown-item" to={`/posts/edit/${_id}`}>
-                  Edit Post
-                </Link>
-                <Link className="dropdown-item" to={`/posts/delete/${_id}`}>
-                  Delete Post
-                </Link>
+                {userId._id === currentUserId ? (
+                  <>
+                    <Link className="dropdown-item" to={`/posts/edit/${_id}`}>
+                      Edit Post
+                    </Link>
+                    <Link className="dropdown-item" to={`/posts/delete/${_id}`}>
+                      Delete Post
+                    </Link>
+                  </>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </Dropdown>

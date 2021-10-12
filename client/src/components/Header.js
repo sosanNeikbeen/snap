@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComments } from "@fortawesome/free-solid-svg-icons";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
@@ -8,10 +8,11 @@ import { useAuth } from "../context/AuthContext";
 
 const Header = () => {
   const [isActive, setisActive] = useState(false);
+  const [userImage, setUserImage] = useState();
   const history = useHistory();
   const location = useLocation();
-  const { logoutUser, currentUser } = useAuth();
-  const { picture, isLoggedIn, userId } = currentUser;
+  const { logoutUser, currentUser, fetchUser } = useAuth();
+  const { userId } = currentUser;
 
   const token = localStorage.getItem("token");
 
@@ -24,6 +25,10 @@ const Header = () => {
     logoutUser();
     history.push("/login");
   };
+  useEffect(async () => {
+    const res = await fetchUser(userId);
+    setUserImage(res.picture);
+  }, []);
 
   return (
     <>
@@ -82,8 +87,8 @@ const Header = () => {
                       <img
                         className="pic-rounded"
                         src={
-                          picture
-                            ? picture
+                          userImage
+                            ? userImage
                             : "https://bulma.io/images/placeholders/256x256.png"
                         }
                         alt=""

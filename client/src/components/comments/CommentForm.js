@@ -3,10 +3,7 @@ import React, { useRef } from "react";
 const CommentForm = ({ postId, handleSubmit, user }) => {
   const commentRef = useRef();
 
-  console.log(user);
-
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = () => {
     const data = {
       comment: commentRef.current.value,
       postId: postId,
@@ -14,11 +11,20 @@ const CommentForm = ({ postId, handleSubmit, user }) => {
     };
     handleSubmit(data);
   };
+
   return (
     <article className="media">
       <figure className="media-left">
-        <p className="image is-64x64">
-          <img src="https://bulma.io/images/placeholders/48x48.png" alt="" />
+        <p className="image ">
+          <img
+            className="pic-square"
+            src={
+              user.picture
+                ? user.picture
+                : "https://bulma.io/images/placeholders/48x48.png"
+            }
+            alt=""
+          />
         </p>
       </figure>
       <div className="media-content">
