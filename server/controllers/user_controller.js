@@ -72,7 +72,7 @@ module.exports = {
         process.env.JWT_SECRET
       );
 
-      return res.json({ status: "ok", token, user: user });
+      return res.json({ status: "ok", token, user: user, isLoggedIn: true });
     }
     res
       .status(400)

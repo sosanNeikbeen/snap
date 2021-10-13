@@ -2,12 +2,13 @@ const commentModel = require("../models/comment_model");
 
 module.exports = {
   createComment: (req, res, next) => {
-    const { comment, postId } = req.body;
-    postCreate = new commentModel({
+    const { comment, postId, userId } = req.body;
+    commentCreate = new commentModel({
       comment,
       postId,
+      userId,
     });
-    postCreate.save((err, files) => {
+    commentCreate.save((err, files) => {
       if (err) {
         console.log(err);
       }
@@ -15,13 +16,13 @@ module.exports = {
     });
   },
 
-  getComments: (req, res, next) => {
-    commentModel
-      .find()
-      .then((files) => {
-        res.send(files);
-      })
-      .catch((err) => console.log(err));
+  getComments: async (req, res, next) => {
+    try {
+      const comments = await commentModel.find().populate("userId").exec();
+      res.send(comments);
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   getComment: (req, res, next) => {

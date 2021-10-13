@@ -20,7 +20,6 @@ module.exports = {
     try {
       const posts = await postModel.find().populate("userId").exec();
       res.send(posts);
-      // console.log(posts[0].userId.name);
     } catch (error) {
       console.log(error);
       res.status(400).send({
