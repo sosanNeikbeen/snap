@@ -39,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUser = async (id) => {
     const res = await xhr.get(`/users/profile/${id}`);
+    // console.log(res.data);
     return res.data;
   };
 

@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import xhr from "../utils/xhr";
 
 export const PostContext = createContext();
@@ -50,6 +50,10 @@ export const PostProvider = ({ children }) => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
   const value = {
     posts,

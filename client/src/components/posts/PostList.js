@@ -1,18 +1,29 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Dropdown from "../Dropdown";
+import Spinner from "../Spinner";
 import ReactTimeAgo from "react-time-ago";
 import { usePost } from "../../context/PostContext";
 import { useAuth } from "../../context/AuthContext";
 
 const PostList = () => {
   const { fetchPosts, posts } = usePost();
+  const [loading, setLoading] = useState(true);
   const { currentUser } = useAuth();
   const { userId } = currentUser;
 
   useEffect(async () => {
     await fetchPosts();
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return (
+      <div className="pt-6">
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -84,7 +95,13 @@ const PostList = () => {
               </article>
               <div className="container">
                 <figure className="image ">
-                  <img src={post.image} alt="user post" />
+                  {post.image ? (
+                    <img src={post.image} alt="user post" />
+                  ) : (
+                    <div className="pt-6">
+                      <Spinner />
+                    </div>
+                  )}
                 </figure>
 
                 <p className="pt-3">

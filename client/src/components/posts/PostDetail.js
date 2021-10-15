@@ -5,6 +5,7 @@ import Dropdown from "../Dropdown";
 import PostComment from "../comments/CommentList";
 import { usePost } from "../../context/PostContext";
 import { useAuth } from "../../context/AuthContext";
+import Spinner from "../Spinner";
 
 const PostDetail = () => {
   const [isPost, setIsPost] = useState();
@@ -24,11 +25,13 @@ const PostDetail = () => {
   }, []);
 
   if (!isPost) {
-    return <div>Loading...</div>;
+    return (
+      <div className="pt-6">
+        <Spinner />
+      </div>
+    );
   }
-
   const { post, image, _id, userId, createdAt } = isPost;
-  console.log(isPost, "postdetails");
 
   return (
     <section className="section p-4 pt-2">
