@@ -51,6 +51,21 @@ export const AuthProvider = ({ children }) => {
   const editUserProfile = async (id, data) => {
     try {
       await xhr.put(`/users/edit/${id}`, data);
+      const token = localStorage.getItem("token");
+      const decoded = jwt.decode(token);
+      if (decoded) {
+        const res = await fetchUser(decoded.id);
+        setCurrentUser({
+          ...currentUser,
+          userId: res._id,
+          email: res.email,
+          name: res.name,
+          location: res.location,
+          picture: res.picture,
+          isLoggedIn: true,
+        });
+      }
+
       console.log("profile updated");
     } catch (error) {
       console.log(error);
@@ -59,21 +74,20 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("im called");
-    const getUser = () => {
+    const getUser = async () => {
       const token = localStorage.getItem("token");
-      if (token) {
-        const decoded = jwt.decode(token);
-        if (decoded) {
-          setCurrentUser({
-            ...currentUser,
-            userId: decoded.id,
-            email: decoded.email,
-            name: decoded.name,
-            location: decoded.location,
-            picture: decoded.picture,
-            isLoggedIn: true,
-          });
-        }
+      const decoded = jwt.decode(token);
+      if (decoded) {
+        const res = await fetchUser(decoded.id);
+        setCurrentUser({
+          ...currentUser,
+          userId: res._id,
+          email: res.email,
+          name: res.name,
+          location: res.location,
+          picture: res.picture,
+          isLoggedIn: true,
+        });
       }
       setLoading(false);
     };
@@ -84,6 +98,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    setCurrentUser,
     createUser,
     loginUser,
     logoutUser,

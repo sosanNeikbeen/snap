@@ -42,7 +42,7 @@ const Profile = () => {
     <div>
       <div className="image-container  ">
         <img
-          className="profile-rounded"
+          className="profile-rounded pl-4"
           width="400px"
           height="100"
           src={

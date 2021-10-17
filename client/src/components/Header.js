@@ -11,7 +11,7 @@ const Header = () => {
   const history = useHistory();
   const location = useLocation();
   const { logoutUser, currentUser } = useAuth();
-  const { picture, isLoggedIn, userId } = currentUser;
+  const { picture, userId } = currentUser;
 
   const token = localStorage.getItem("token");
 
