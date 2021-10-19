@@ -60,11 +60,13 @@ const Header = () => {
                 </Link>
               </div>
               <div className="level-item">
-                <span className="icon is-large is-size-4 has-text-white">
-                  <i className="fas fa-angle-down" aria-hidden="true">
-                    <FontAwesomeIcon icon={faComments} />
-                  </i>
-                </span>
+                <Link to="/conversations">
+                  <span className="icon is-large is-size-4 has-text-white">
+                    <i className="fas fa-angle-down" aria-hidden="true">
+                      <FontAwesomeIcon icon={faComments} />
+                    </i>
+                  </span>
+                </Link>
               </div>
               <div className="level-item">
                 <div

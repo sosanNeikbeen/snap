@@ -15,6 +15,8 @@ import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
 import CommentDelete from "./comments/CommentDelete";
 import CommentEdit from "./comments/CommentEdit";
+import Conversations from "./Conversations/ConversationList";
+import Message from "./Conversations/Messenger";
 import Signup from "./authentication/Register";
 import Login from "./authentication/Login";
 
@@ -69,6 +71,16 @@ const App = () => {
                       path="/users/edit/:id"
                       exact
                       component={ProfileEdit}
+                    />
+                    <PrivateRoute
+                      path="/conversations"
+                      exact
+                      component={Conversations}
+                    />
+                    <PrivateRoute
+                      path="/message/:id"
+                      exact
+                      component={Message}
                     />
                     <Route path="/login" exact component={Login} />
                     <Route path="/signup" exact component={Signup} />
