@@ -11,7 +11,6 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const ProfileEdit = () => {
   const { editUserProfile } = useAuth();
-  const [blob, setBlob] = useState(null);
   const history = useHistory();
   const url = window.location.pathname;
   const id = url.substring(url.lastIndexOf("/") + 1);
@@ -19,59 +18,17 @@ const ProfileEdit = () => {
   const [currentImage, setCurrentImage] = useState(null);
   const imageRef = useRef();
 
-  const getBlob = (blob) => {
-    // pass blob up from the ImageCropper component
-    setBlob(blob);
-  };
-
-  const uploadSingleFile = async (e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-
-    reader.addEventListener(
-      "load",
-      () => {
-        setImage(reader.result);
-      },
-      false
-    );
-
-    if (file) {
-      reader.readAsDataURL(file);
-    }
+  const uploadSingleFile = (e) => {
+    setImage(e.target.files[0]);
     setCurrentImage(URL.createObjectURL(e.target.files[0]));
   };
 
-  // const cropAndUpload = useCallback(
-  //   async (e) => {
-  //     e.preventDefault();
-  //     const croppedImage = await getCroppedImg(image, croppedAreaPixels);
-  //     console.log(croppedImage);
-  //     if (croppedImage == null) return;
-  //     const storageRef = ref(storage, `user-profile/${croppedImage.name}`);
-
-  //     await uploadBytes(storageRef, croppedImage);
-  //     const url = await getDownloadURL(storageRef);
-
-  //     const data = {
-  //       picture: url,
-  //     };
-  //     try {
-  //       editUserProfile(id, data);
-  //       history.goBack();
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  //   [croppedAreaPixels]
-  // );
-
   const cropAndUpload = async (e) => {
     e.preventDefault();
-    if (blob == null) return;
-    const storageRef = ref(storage, `user-profile/${blob.name}`);
+    if (image == null) return;
+    const storageRef = ref(storage, `user-profile/${image.name}`);
 
-    await uploadBytes(storageRef, blob);
+    await uploadBytes(storageRef, image);
     const url = await getDownloadURL(storageRef);
 
     const data = {
@@ -108,9 +65,9 @@ const ProfileEdit = () => {
         <div className="field">
           {currentImage ? (
             <figure className="crop-container">
-              {/* <img src={currentImage} alt="" /> */}
+              <img src={currentImage} alt="" />
 
-              <ImageCropper getBlob={getBlob} inputImg={image} />
+              {/* <ImageCropper getBlob={getBlob} inputImg={image} /> */}
             </figure>
           ) : (
             <div className="columns is-centered is-mobile">

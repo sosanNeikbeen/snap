@@ -40,9 +40,9 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="image-container  ">
+      <div className="image-container p-0 ">
         <img
-          className="profile-rounded pl-4"
+          className="profile-rounded "
           width="400px"
           height="100"
           src={

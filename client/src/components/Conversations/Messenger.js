@@ -95,7 +95,7 @@ const Messenger = () => {
             <>
               <div className="chatBoxTop pb-6 p-2">
                 {messages.map((m) => (
-                  <div ref={scrollRef}>
+                  <div key={m._id} ref={scrollRef}>
                     <Message
                       message={m}
                       own={m.sender._id === currentUser.userId}

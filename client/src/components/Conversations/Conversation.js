@@ -18,14 +18,14 @@ const Conversation = ({ conversation, currentUser }) => {
   }, [currentUser, conversation]);
 
   return (
-    <aside class="menu">
+    <aside className="menu">
       {user !== null ? (
-        <ul class="menu-list m-0">
+        <ul className="menu-list m-0">
           <li>
             <Link to={`/message/${conversation._id}`}>
-              <nav class="level is-mobile pt-2">
-                <div class="level-left">
-                  <div class="level-item">
+              <nav className="level is-mobile pt-2">
+                <div className="level-left">
+                  <div className="level-item">
                     <figure className="">
                       <figure className="image ">
                         <img
@@ -40,7 +40,7 @@ const Conversation = ({ conversation, currentUser }) => {
                       </figure>
                     </figure>
                   </div>
-                  <div class="level-item">
+                  <div className="level-item">
                     <div className="content">
                       <p className="title is-6">{user.name}</p>
                       <p class="subtitle has-text-grey pt-5 is-6">
