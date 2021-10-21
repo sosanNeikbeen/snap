@@ -1,24 +1,24 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Header from "./Header";
-import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute from "./Routes/PrivateRoute";
 import { PostProvider } from "../context/PostContext";
 import { CommentProvider } from "../context/CommentContext";
 import { AuthProvider } from "../context/AuthContext";
 import { ToastProvider } from "react-toast-notifications";
-import PostCreate from "./posts/PostCreate";
-import PostList from "./posts/PostList";
-import PostDetail from "./posts/PostDetail";
-import PostDelete from "./posts/PostDelete";
-import PostEdit from "./posts/PostEdit";
+import PostCreate from "./Posts/PostCreate";
+import PostList from "./Posts/PostList";
+import PostDetail from "./Posts/PostDetail";
+import PostDelete from "./Posts/PostDelete";
+import PostEdit from "./Posts/PostEdit";
 import Profile from "./Profile";
 import ProfileEdit from "./ProfileEdit";
-import CommentDelete from "./comments/CommentDelete";
-import CommentEdit from "./comments/CommentEdit";
+import CommentDelete from "./Comments/CommentDelete";
+import CommentEdit from "./Comments/CommentEdit";
 import Conversations from "./Conversations/ConversationList";
 import Message from "./Conversations/Messenger";
-import Signup from "./authentication/Register";
-import Login from "./authentication/Login";
+import Signup from "./Authentication/Register";
+import Login from "./Authentication/Login";
 
 const App = () => {
   return (

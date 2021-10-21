@@ -1,97 +1,17 @@
-// import React from "react";
-// import { Field, reduxForm } from "redux-form";
-
-// class StreamForm extends React.Component {
-//   renderError({ error, touched }) {
-//     if (touched && error) {
-//       return (
-//         <div className="ui error message">
-//           <div className="header">{error}</div>
-//         </div>
-//       );
-//     }
-//   }
-
-//   renderInput = ({ input, label, meta }) => {
-//     const className = `field ${meta.error && meta.touched ? "error" : ""}`;
-//     return (
-//       <div className={className}>
-//         <label>{label}</label>
-//         <input {...input} />
-//         {this.renderError(meta)}
-//       </div>
-//     );
-//   };
-
-//   onSubmit = (formValues) => {
-//     this.props.onSubmit(formValues);
-//   };
-
-//   render() {
-//     return (
-//       <form
-//         onSubmit={this.props.handleSubmit(this.onSubmit)}
-//         className="ui form error"
-//       >
-//         <Field name="title" component={this.renderInput} label="Enter Title" />
-//         <Field
-//           name="description"
-//           component={this.renderInput}
-//           label="Enter Description"
-//         />
-//         <button className="ui button primary">submit</button>
-//       </form>
-//     );
-//   }
-// }
-
-// const validate = (formValues) => {
-//   const errors = {};
-//   if (!formValues.title) {
-//     errors.title = "You must enter a title";
-//   }
-//   if (!formValues.description) {
-//     errors.description = "You must enter a description";
-//   }
-//   return errors;
-// };
-
-// export default reduxForm({
-//   form: "streamForm",
-//   validate,
-// })(StreamForm);
-
 import React, { useRef, useState } from "react";
 import { storage } from "../../firebase";
 import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { useAuth } from "../../context/AuthContext";
-// import { useGoogleAuth } from "../../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 const PostForm = (props) => {
-  // const [userId, setUserId] = useState();
   const { currentUser } = useAuth();
   const [image, setImage] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
   const postRef = useRef();
   const imageRef = useRef();
 
-  // const { isSignedIn, auth2 } = useGoogleAuth();
-  // const auth = useGoogleAuth().auth2.currentUser.get();
-
-  // if (isSignedIn) {
-  //   const userId = auth2.currentUser.get().getId();
-  // }
-  // if (auth2.currentUser.get()) {
-  //   const userId = auth2.currentUser.get().getId();
-  //   console.log(userId);
-  // }
-
-  // if (isSignedIn) {
-  //   const userId = useGoogleAuth().auth2.currentUser.get().getId();
-  //   console.log(userId);
-  // }
   const uploadSingleFile = (e) => {
     setImage(e.target.files[0]);
     setCurrentImage(URL.createObjectURL(e.target.files[0]));

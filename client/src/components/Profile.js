@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
-import UserPost from "./posts/UserPost";
+import UserPost from "./Posts/UserPost";
 import { useAuth } from "../context/AuthContext";
 
 const Profile = () => {
